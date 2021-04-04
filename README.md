@@ -1,5 +1,10 @@
 # SPaaS Production Planner API
 
+## Intro
+
+My attempt at Engie's GEM-SPaaS PowerPlant Coding Challenge :-)
+(See: https://github.com/gem-spaas/powerplant-coding-challenge)
+
 ## Prerequisites
 
 This is a Python3 application. (python3 is expected to be on the path irrespective of run-time environment.)
