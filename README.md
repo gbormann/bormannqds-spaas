@@ -7,7 +7,7 @@ My attempt at Engie's GEM-SPaaS PowerPlant Coding Challenge :-)
 
 ## Prerequisites
 
-This is a Python3 application. (python3 is expected to be on the path irrespective of run-time environment.)
+This is a Python3 (v3.7) application. (python3 is expected to be on the path irrespective of run-time environment.)
 
 ### Planner implementation
 
@@ -56,3 +56,4 @@ at least hide it behind a Proxy/Reverse Proxy combo (e.g. using the Apache Httpd
 * Add WebSocket to broadcast the response to the latest request.
 * Running from a Docker container (already partially setup but not yet ready for re-imaging).
 (httpd proxying is already tested)
+* Add input validation on the JSON request payload (this was my first Flask application).
