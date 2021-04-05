@@ -193,7 +193,8 @@ class ProductionPlanner(object):
     def display_merit_order(self):  # to log or to dashboard
         for pp in heap.nsmallest(len(self.m_pps), self.m_pp_mo_q):
             self.m_log.info(
-                f"{pp[3].m_name}: type={pp[3].m_type} unit cost={pp[0]} p_min={pp[3].m_p_min} p_max={pp[1]} load={pp[3].load()}")
+                f"{pp[3].m_name}: type={pp[3].m_type} unit cost={pp[0]} p_min={pp[3].m_p_min} p_max={pp[1]} load={pp[3].load()}"
+            )
 
     def try_recommit(self, load_to_recommit, plan_tp):
         initial_cost = plan_tp[0]
@@ -203,7 +204,7 @@ class ProductionPlanner(object):
         cost_recommitting = initial_cost - prev_pp.cur_load_cost() + res[0]
 
         self.m_log.info(f"Cost of recommitting: {cost_recommitting}; uncovered load: {res[1]}")
-        for pp_tp in self.m_pp_mo_q: pp_tp[3].reset_load();
+        for pp_tp in self.m_pp_mo_q: pp_tp[3].reset_load()
 
         return cost_recommitting, res[1]
 
@@ -236,11 +237,6 @@ class ProductionPlanner(object):
         self.m_log.info(f"\t\t({prev_pp.m_name} at {prev_pp.load()} underloaded? {prev_pp.is_underloaded()})")
         self.display_pp("\tprev: ", prev_pp)
         committed_load = self.m_exp_load - prev_pp.load()
-        #        if committed_load < (prev_pp.m_p_min - prev_pp.load()): # we need to find a plant with a sufficiently lower minimum
-        #            self.m_log.info(f"#unloaded plants: {len(self.m_pp_mo_q)}; uncommitted: {prev_pp.load()}")
-        #            self.m_log.info("NYI!")
-        #            return (cost, prev_pp, plan)
-        #        else: # we can repartition committed power to reach the minimum or recommit to a lower merit plant altogether, whatever is cheaper
         load_to_repartition = round(10 * (prev_pp.m_p_min - prev_pp.load())) / 10
         load_to_recommit = prev_pp.load()
         self.m_log.info(
@@ -289,7 +285,6 @@ class ProductionPlanner(object):
             while load > 0.:
                 pp = pps[0][3]
                 self.display_pp("\tscan: ", pp)
-                # 1st order approximation; should be replaced with recursive search
                 if (not is_recommit) or pp.unit_cost() > prev_pp.unit_cost() and pp.m_p_min <= prev_pp.m_p_min:
                     load -= pp.add_load(load)
                     cost += pp.cur_load_cost()
@@ -336,10 +331,8 @@ def test_plan(payload_uri, result_uri):
         log.info("-_-----------------------------------------------------------_-")
     except PowerGapError as pge:
         log.error(f"Power gap! {pge}")
-        # return 404 as condition is a configuration corner case
     except UnderpoweredError as upe:
         log.error(f"Underpowered! {upe}")
-        # return 400 as condition is a priori-testable
     else:
         res_json = json.dumps(
             [
@@ -354,8 +347,8 @@ def test_plan(payload_uri, result_uri):
         json.dump(
             [
                 tp[2] for tp in sorted(
-                [(pp.unit_cost(), pp.m_name, {"name": pp.m_name, "p": pp.load()}) for pp in planner.m_pps]
-            )
+                    [(pp.unit_cost(), pp.m_name, {"name": pp.m_name, "p": pp.load()}) for pp in planner.m_pps]
+                )
             ],
             resp_file,
             indent="\t"

@@ -31,10 +31,10 @@ class Spaas(Resource):
             self.m_log.info("-----------------------------------------------------")
         except PowerGapError as pge:
             self.m_log.error(f"Power gap! {pge}")
-            return {'message': f"Power gap! {pge}"}, 404
+            return {'message': f"Power gap! {pge}"}, 404  # 404 because condition is a corner case
         except UnderpoweredError as upe:
             self.m_log.error(f"Underpowered! {upe}")
-            return {'message': f"Underpowered! {upe}"}, 400
+            return {'message': f"Underpowered! {upe}"}, 400  # 400 because condition is a priori-testable
         else:
             result = [
                 tp[2] for tp in sorted(
